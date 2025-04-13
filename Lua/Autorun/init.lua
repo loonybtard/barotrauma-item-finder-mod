@@ -6,7 +6,12 @@ if ItemFinderMod == nil then
     ItemFinderMod = {}
     ItemFinderMod.Forced = false;
     ItemFinderMod.Path = ...
+
+-- multiple initializations check
+elseif ItemFinderMod.Inited then
+    return; 
 end
+ItemFinderMod.Inited = true;
 
 ItemFinderMod.Settings = dofile(ItemFinderMod.Path .. "/Lua/settings.lua")
 
