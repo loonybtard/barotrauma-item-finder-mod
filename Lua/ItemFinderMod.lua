@@ -1,29 +1,33 @@
-local WorldToScreen = Game.GameScreen.Cam.WorldToScreen;
 local Settings = ItemFinderMod.Settings; -- updated in UpdateItems()
 
 local snaplinesActive = false;
 local slItems = {}
 local hookId = nil;
 
+function WorldToScreen(WorldPosition)
+    if WorldPosition == nil then
+        return Vector2(0,0)
+    end
+
+    return Game.GameScreen.Cam.WorldToScreen(WorldPosition);
+end
+
 function GetDrawFromWorldPos()
     local LocalPlayerChar = Character.Controlled;
-    if LocalPlayerChar == nil then return end
 
     local DrawFrom;
-    if Settings.DrawFromCharacter then
-        DrawFrom = LocalPlayerChar.WorldPosition;
+    if Settings.DrawFromCharacter and LocalPlayerChar ~= nil then
+        DrawFrom = WorldToScreen(LocalPlayerChar.WorldPosition);
     else
-        DrawFrom = LocalPlayerChar.CursorWorldPosition;
+        DrawFrom = PlayerInput.MousePosition;
     end
 
     return DrawFrom;
 end
 
 function GetDistanceToItem(From, Item)
-    local To = Item.WorldPosition;
+    local To = WorldToScreen(Item.WorldPosition);
 
-    --   ____________________________________
-    -- \/ (xFrom - xTo)^2 + (yFrom - yTo)^2
     return math.sqrt( math.pow(From.X - To.X, 2) + math.pow(From.Y - To.Y, 2) );
 end
 
@@ -65,7 +69,6 @@ if hookId == nil then
         end
 
         local DrawFrom = GetDrawFromWorldPos();
-        DrawFrom = WorldToScreen(DrawFrom);
 
         local SearchItems = Settings.SearchItems;
 
@@ -91,5 +94,6 @@ end
 
 return function ()
     snaplinesActive = not snaplinesActive;
+    print("snaplinesActive ", snaplinesActive)
     return snaplinesActive ;
 end
