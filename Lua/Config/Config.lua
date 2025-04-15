@@ -1,14 +1,29 @@
-ItemFinderMod.ConfigFile = ItemFinderMod.Path .. "/config.json"
+local ConfigDir = Game.SaveFolder .. "/ModConfigs";
+local ConfigFile = ConfigDir .. "/ItemFinderMod.json";
+local ConfigFileOld = ItemFinderMod.Path .. "/config.json";
+
 
 local function GetDefaultConfig() 
     return dofile(ItemFinderMod.Path .. "/Lua/Config/Default.lua")();
 end
 
 local function ReadConfig()
-    return json.parse(File.Read(ItemFinderMod.ConfigFile))
+    return json.parse(File.Read(ConfigFile))
 end
 
-function FixConfig(config)
+local function MoveOldConfig()
+    -- move file only if old config exist
+    -- AND new config not exists
+    if not File.Exists(ConfigFileOld) or File.Exists(ConfigFile) then
+        return
+    end
+
+    File.Write(ConfigFile, File.Read(ConfigFileOld));
+    File.Delete(ConfigFileOld);
+
+end
+
+local function FixConfig(config)
 
     local fixed = false;
 
@@ -39,19 +54,19 @@ function FixConfig(config)
     end
 
     return fixed, config;
-
 end
 
 function SaveConfig(config)
+    File.CreateDirectory(ConfigDir);
     File.Write(
-        ItemFinderMod.ConfigFile,
+        ConfigFile,
         json.serialize(config)
     )
 end
 
 function LoadConfig()
     -- default config if config.json not exists
-    if not File.Exists(ItemFinderMod.ConfigFile) then
+    if not File.Exists(ConfigFile) then
         SaveConfig(GetDefaultConfig())
     end
 
@@ -63,5 +78,7 @@ function LoadConfig()
 
     return config;
 end
+
+MoveOldConfig();
 
 return LoadConfig();
