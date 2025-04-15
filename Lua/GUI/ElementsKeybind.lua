@@ -44,16 +44,13 @@ return function (Config)
         return str;
     end
 
-    local KbHookId = nil;
     function GetNewKeybind(callback)
 
         if type(callback) ~= "function" then
             callback = function() return; end
         end
         
-        KbHookId = Hook.Patch("Barotrauma.Character", "ControlLocalPlayer", function(instance, ptable)
-            if not instance then return end
-
+        Hook.Add("think", "ItemFinderMod.GetNewKeybind", function()
             if PlayerInput.KeyDown(Keys.Escape) then
                 UnsetKbHook()
                 callback(nil);
@@ -61,26 +58,24 @@ return function (Config)
             end
 
             if IsOnlyControlKeysPressed() then return end;
+            UnsetKbHook();
 
             local pressedKeys = PlayerInput.GetKeyboardState.GetPressedKeys();
             local result = {};
             for _, key in pairs(pressedKeys) do
                 local kName = tostring(key)
+                -- Ctrl/Shift/Alt always in the end of list
+                -- reverse list by inserting items at the beginning
                 table.insert(result, 1, kName);
             end
 
-            UnsetKbHook();
             callback(result);
-        end, Hook.HookMethodType.After);
+        end);
 
     end
 
     function UnsetKbHook()
-        if KbHookId == nil then return; end
-
-        Hook.RemovePatch(KbHookId, "Barotrauma.Character", "ControlLocalPlayer", Hook.HookMethodType.After)
-
-        KbHookId = nil;
+        Hook.Remove("think", "ItemFinderMod.GetNewKeybind");
     end
 
     function IsOnlyControlKeysPressed()

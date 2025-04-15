@@ -22,13 +22,11 @@ dofile(ItemFinderMod.Path .. "/Lua/GUI/ItemFinderModGui.lua");
 -- load main logic
 local ToggleSnaplines  = dofile(ItemFinderMod.Path .. "/Lua/ItemFinderMod.lua");
 
-Hook.Patch("Barotrauma.Character", "ControlLocalPlayer", function(instance, ptable)
-    if not instance then return end
-
+Hook.Add("think", "ItemFinderMod.ToggleSnaplines", function()
     if IsKeybindHitted() then
         ToggleSnaplines();
     end
-end, Hook.HookMethodType.After);
+end);
 
 function IsKeybindHitted()
     local keys = ItemFinderMod.Config.KeyBindTooggle;
