@@ -21,7 +21,8 @@ local function ValidateConfig(config)
 
     for key, value in pairs(config) do
         if type(value) == "userdata" then
-            print("[ValidateLoaded] ", "key: ", key, " type == userdata");
+            print("[ItemFinderMod:ValidateConfig] ", "key: ", key, " type: userdata");
+            print(value);
             return false;
         end
 

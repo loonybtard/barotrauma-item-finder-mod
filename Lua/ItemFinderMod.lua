@@ -94,6 +94,5 @@ end
 
 return function ()
     snaplinesActive = not snaplinesActive;
-    print("snaplinesActive ", snaplinesActive)
     return snaplinesActive ;
 end

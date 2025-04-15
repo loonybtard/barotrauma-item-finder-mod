@@ -8,7 +8,7 @@ return function ( ... )
 	config.KeyBindTooggle = {"Q"};
 
 	config.DrawFromCharacter = false;
-	config.MaxDistance = 1000;
+	config.MaxDistance = 3000;
 
 	config.SearchItems = {
 		["timeddetonator"] = {255, 0, 0}, 
