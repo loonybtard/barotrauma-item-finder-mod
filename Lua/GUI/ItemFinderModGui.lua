@@ -31,13 +31,19 @@ Hook.Add("stop", "ItemFinderMod.CleanupGUI", function ()
     end
 end)
 
+local function OnClose(config)
+    ItemFinderMod.Config = config;
+
+    SaveConfig(config);
+end
+
 ItemFinderMod.ShowGUI = function(frame)
 	
 	ItemFinderMod.GUIFrame = frame
 
 	local InitElements = dofile(ItemFinderMod.Path .. "/Lua/GUI/Elements.lua")
 
-    local Elements = InitElements(frame, SaveSettings);
+    local Elements = InitElements(frame, OnClose);
 
     local left, right = Elements.Row_TwoCols();
 	Elements.Input_UpdateDelayFrames(left);
@@ -52,12 +58,6 @@ ItemFinderMod.ShowGUI = function(frame)
     Elements.List_ItemsSelector();
 
     
-end
-
-function SaveSettings(settings)
-    ItemFinderMod.Settings = settings;
-
-    File.Write(ItemFinderMod.SettingsFile, json.serialize(ItemFinderMod.Settings))
 end
 
 easySettings.AddMenu("ItemFinderMod", ItemFinderMod.ShowGUI)

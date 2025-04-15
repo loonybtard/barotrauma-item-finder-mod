@@ -1,5 +1,5 @@
 
-return function (Settings)
+return function (Config)
     local parentContainer = nil;
 
 
@@ -12,7 +12,7 @@ return function (Settings)
 
         local button = GUI.Button(
             GetRectTransform(0.70, 0.05, row),
-            GetKeybindString(Settings.KeyBindTooggle), 
+            GetKeybindString(Config.KeyBindTooggle), 
             GUI.Alignment.Center,
             "GUITextBox"
         );
@@ -21,11 +21,11 @@ return function (Settings)
             button.Text = "< ... >";    
             GetNewKeybind(function (keys)
                 if keys == nil then 
-                    button.Text = GetKeybindString(Settings.KeyBindTooggle);
+                    button.Text = GetKeybindString(Config.KeyBindTooggle);
                     return
                 end;
 
-                Settings.KeyBindTooggle = table.copy(keys);
+                Config.KeyBindTooggle = table.copy(keys);
                 button.Text = GetKeybindString(keys);
             end)
         end

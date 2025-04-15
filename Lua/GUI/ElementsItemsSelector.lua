@@ -1,5 +1,5 @@
 
-return function (Settings)
+return function (Config)
 
     -- just for convenience
     local Alignment = GUI.Alignment;
@@ -71,10 +71,10 @@ return function (Settings)
         -- but work this:
         colorPricker.SelectedHue,
         colorPricker.SelectedSaturation,
-        colorPricker.SelectedValue = rgb2hsv(Settings.SearchItems[itemId])
+        colorPricker.SelectedValue = rgb2hsv(Config.SearchItems[itemId])
 
         colorPricker.OnColorSelected = function ( )
-            Settings.SearchItems[itemId] = {
+            Config.SearchItems[itemId] = {
                 colorPricker.CurrentColor.r,
                 colorPricker.CurrentColor.g,
                 colorPricker.CurrentColor.b
@@ -158,7 +158,7 @@ return function (Settings)
             local i = 0;
 
             -- for every item
-            for id, color in pairs(Settings.SearchItems) do
+            for id, color in pairs(Config.SearchItems) do
                 -- create row in list and save in table
                 -- in UpdateLists this table will be used 
                 -- for filter items
@@ -210,12 +210,12 @@ return function (Settings)
 
     function ToggleElementList(itemId)
 
-        if Settings.SearchItems[itemId] ~= nil then
-            Settings.SearchItems[itemId] = nil;
+        if Config.SearchItems[itemId] ~= nil then
+            Config.SearchItems[itemId] = nil;
             listActiveEl.RemoveChild(activeElList[itemId]);
             activeElList[itemId] = nil;
         else
-            Settings.SearchItems[itemId] = {math.random(50, 220), math.random(50, 220), math.random(50, 220)};
+            Config.SearchItems[itemId] = {math.random(50, 220), math.random(50, 220), math.random(50, 220)};
             activeElList[itemId] = ItemActiveRow(listActiveEl, itemId);
             listActiveEl.ScrollToEnd(0.01);
         end
@@ -241,7 +241,7 @@ return function (Settings)
             isFoundByName = string.find(name, filter, 1, true) ~= nil;
         end
 
-        local isInActiveList = Settings.SearchItems[itemId] ~= nil and not isActive;
+        local isInActiveList = Config.SearchItems[itemId] ~= nil and not isActive;
         return (isFoundById or isFoundByName) and (not isInActiveList);
     end
 

@@ -9,13 +9,17 @@ if ItemFinderMod == nil then
 
 -- multiple initializations check
 elseif ItemFinderMod.Inited then
-    return; 
+    return;
 end
 ItemFinderMod.Inited = true;
 
-ItemFinderMod.Settings = dofile(ItemFinderMod.Path .. "/Lua/settings.lua")
+-- load config
+ItemFinderMod.Config = dofile(ItemFinderMod.Path .. "/Lua/Config/Config.lua");
 
+-- load settings gui
 dofile(ItemFinderMod.Path .. "/Lua/GUI/ItemFinderModGui.lua");
+
+-- load main logic
 local ToggleSnaplines  = dofile(ItemFinderMod.Path .. "/Lua/ItemFinderMod.lua");
 
 Hook.Patch("Barotrauma.Character", "ControlLocalPlayer", function(instance, ptable)
@@ -27,7 +31,7 @@ Hook.Patch("Barotrauma.Character", "ControlLocalPlayer", function(instance, ptab
 end, Hook.HookMethodType.After);
 
 function IsKeybindHitted()
-    local keys = ItemFinderMod.Settings.KeyBindTooggle;
+    local keys = ItemFinderMod.Config.KeyBindTooggle;
 
     for i, key in pairs(keys) do
 

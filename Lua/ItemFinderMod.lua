@@ -1,4 +1,4 @@
-local Settings = ItemFinderMod.Settings; -- updated in UpdateItems()
+local Config = ItemFinderMod.Config; -- updated in UpdateItems()
 
 local snaplinesActive = false;
 local slItems = {}
@@ -16,7 +16,7 @@ function GetDrawFromWorldPos()
     local LocalPlayerChar = Character.Controlled;
 
     local DrawFrom;
-    if Settings.DrawFromCharacter and LocalPlayerChar ~= nil then
+    if Config.DrawFromCharacter and LocalPlayerChar ~= nil then
         DrawFrom = WorldToScreen(LocalPlayerChar.WorldPosition);
     else
         DrawFrom = PlayerInput.MousePosition;
@@ -32,21 +32,21 @@ function GetDistanceToItem(From, Item)
 end
 
 function UpdateItems()
-    Settings = ItemFinderMod.Settings;
+    Config = ItemFinderMod.Config;
     if not snaplinesActive  then
         slItems = {}
         return
     end
 
     slItems = {}
-    for searchId, color in pairs(Settings.SearchItems) do
+    for searchId, color in pairs(Config.SearchItems) do
         local found = Util.GetItemsById(searchId) or {}
         
         for _, item in pairs(found) do
 
             if not item.IsContained then
-                local isRangeLimited = Settings.MaxDistance ~= -1;
-                local inRange = GetDistanceToItem(GetDrawFromWorldPos(), item) < Settings.MaxDistance;
+                local isRangeLimited = Config.MaxDistance ~= -1;
+                local inRange = GetDistanceToItem(GetDrawFromWorldPos(), item) < Config.MaxDistance;
 
                 if not isRangeLimited or inRange then
                     table.insert(slItems, item);
@@ -63,14 +63,14 @@ if hookId == nil then
     hookId = Hook.Patch("Barotrauma.GUI", "Draw", function(instance, ptable)
 
         frameCounter = frameCounter + 1;
-        if frameCounter % Settings.UpdateDelayFrames == 0 then
+        if frameCounter % Config.UpdateDelayFrames == 0 then
             UpdateItems();
             frameCounter = 0;
         end
 
         local DrawFrom = GetDrawFromWorldPos();
 
-        local SearchItems = Settings.SearchItems;
+        local SearchItems = Config.SearchItems;
 
         for _, item in pairs(slItems ) do
             local Identifier = item.Prefab.Identifier;

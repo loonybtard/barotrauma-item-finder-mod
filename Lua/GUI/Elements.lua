@@ -41,9 +41,9 @@ end
 
 return function(frame, onCloseCallback) 
 
-    local Settings = table.copy(ItemFinderMod.Settings);
+    local Config = table.copy(ItemFinderMod.Config);
 
-    local config = GuiContainer(frame, CloseCBDecorator(onCloseCallback, Settings))
+    local config = GuiContainer(frame, CloseCBDecorator(onCloseCallback, Config))
 
     function GetRectTransform(width, height, rectTransformOrElement, alignment)
         width = width or 1;
@@ -82,10 +82,10 @@ return function(frame, onCloseCallback)
         input.MaxValueInt = 9999
         input.valueStep = 1
 
-        input.IntValue = Settings.UpdateDelayFrames;
+        input.IntValue = Config.UpdateDelayFrames;
 
         input.OnValueChanged = function ()
-            Settings.UpdateDelayFrames = input.IntValue;
+            Config.UpdateDelayFrames = input.IntValue;
         end
 
         TextLabel("", 0.25, 1, ParentContainer);
@@ -95,9 +95,9 @@ return function(frame, onCloseCallback)
         TextLabel("Draw from character:", 0.6, 1, ParentContainer);
 
         local input = GUI.TickBox(GetRectTransform(0.2, 1, ParentContainer));
-        input.Selected = Settings.DrawFromCharacter;
+        input.Selected = Config.DrawFromCharacter;
         input.OnSelected = function ()
-            Settings.DrawFromCharacter = input.Selected;
+            Config.DrawFromCharacter = input.Selected;
         end
 
         TextLabel("", 0.2, 1, ParentContainer);
@@ -112,9 +112,9 @@ return function(frame, onCloseCallback)
         -- input.MaxValueInt = 999999999
         input.valueStep = 1
 
-        input.IntValue = Settings.MaxDistance;
+        input.IntValue = Config.MaxDistance;
         input.OnValueChanged = function ()
-            Settings.MaxDistance = input.IntValue;
+            Config.MaxDistance = input.IntValue;
         end
 
         -- TextLabel("", 0.2, 1, ParentContainer);
@@ -129,8 +129,8 @@ return function(frame, onCloseCallback)
         return left, right;
     end
 
-    Elements.List_ItemsSelector = dofile(ItemFinderMod.Path .. "/Lua/GUI/ElementsItemsSelector.lua")(Settings);
-    Elements.Input_Keybind = dofile(ItemFinderMod.Path .. "/Lua/GUI/ElementsKeybind.lua")(Settings);
+    Elements.List_ItemsSelector = dofile(ItemFinderMod.Path .. "/Lua/GUI/ElementsItemsSelector.lua")(Config);
+    Elements.Input_Keybind = dofile(ItemFinderMod.Path .. "/Lua/GUI/ElementsKeybind.lua")(Config);
 
     return Elements
 end
