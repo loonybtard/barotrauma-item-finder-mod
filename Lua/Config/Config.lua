@@ -1,54 +1,45 @@
 ItemFinderMod.ConfigFile = ItemFinderMod.Path .. "/config.json"
 
-local function InitDefaultConfig(asd)
-    File.Write(
-        ItemFinderMod.ConfigFile,
-        json.serialize(
-            dofile(ItemFinderMod.Path .. "/Lua/Config/Default.lua")()
-        )
-    )
+local function GetDefaultConfig() 
+    return dofile(ItemFinderMod.Path .. "/Lua/Config/Default.lua")();
 end
 
 local function ReadConfig()
     return json.parse(File.Read(ItemFinderMod.ConfigFile))
 end
 
--- returns true if config have no errors
-local function ValidateConfig(config)
-    if type(config) ~= "table" then
-        return false;
-    end
+function FixConfig(config)
 
-    for key, value in pairs(config) do
-        if type(value) == "userdata" then
-            print("[ItemFinderMod:ValidateConfig] ", "key: ", key, " type: userdata");
-            print(value);
-            return false;
+    local fixed = false;
+
+    local default = GetDefaultConfig()
+
+    for dKey, dValue in pairs(default) do
+        
+        if dKey == "SearchItems" then
+            local items = {};
+            for itemId, color in pairs(config.SearchItems) do
+                print(itemId, " ", color);
+                if type(color) == "table" then
+                    items[itemId] = color
+                else
+                    fixed = true;
+                    print("[ItemFinderMod:FixConfig>SearchItems] k:", itemId, " v:", color);
+                end
+            end
+            config.SearchItems = items
+
+        elseif type(default[dKey]) ~= type(config[dKey]) then
+            fixed = true;
+            print("[ItemFinderMod:FixConfig] k:", dKey, " v:", config[dKey]);
+
+            config[dKey] = dValue;
         end
 
-        if type(value) == "table" and not ValidateConfig(value) then
-            return false;
-        end
     end
 
-    return true;
-end
+    return fixed, config;
 
-function LoadConfig()
-    -- default config if config.json not exists
-    if not File.Exists(ItemFinderMod.ConfigFile) then
-        InitDefaultConfig()
-    end
-
-    local config = ReadConfig();
-
-    -- if config contains errors
-    if not ValidateConfig(config) then
-        InitDefaultConfig();
-        config = ReadConfig();
-    end
-
-    return config;
 end
 
 function SaveConfig(config)
@@ -56,6 +47,21 @@ function SaveConfig(config)
         ItemFinderMod.ConfigFile,
         json.serialize(config)
     )
+end
+
+function LoadConfig()
+    -- default config if config.json not exists
+    if not File.Exists(ItemFinderMod.ConfigFile) then
+        SaveConfig(GetDefaultConfig())
+    end
+
+    local errors, config = FixConfig(ReadConfig());
+
+    if errors then
+        SaveConfig(config);
+    end
+
+    return config;
 end
 
 return LoadConfig();

@@ -47,9 +47,9 @@ function rgb2hsv( r, g, b )
 	-- if passed Color or table in r
 	if g == nil then
 		if type(r) == "table" then
-			g = r[2]
-			b = r[3]
-			r = r[1]
+			g = r[2] or 0
+			b = r[3] or 0
+			r = r[1] or 0
 		else
 			g = r.g
 			b = r.b
