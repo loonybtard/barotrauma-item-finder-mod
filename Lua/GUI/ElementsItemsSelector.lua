@@ -159,10 +159,12 @@ return function (Config)
 
             -- for every item
             for id, color in pairs(Config.SearchItems) do
-                -- create row in list and save in table
-                -- in UpdateLists this table will be used
-                -- for filter items
-                activeElList[id] = ItemActiveRow(listActiveEl, id);
+                if Perfabs[id] ~= nil then
+                    -- create row in list and save in table
+                    -- in UpdateLists this table will be used
+                    -- for filter items
+                    activeElList[id] = ItemActiveRow(listActiveEl, id);
+                end
 
                 i = i + 1;
                 -- pause every N elements
