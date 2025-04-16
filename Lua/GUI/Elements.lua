@@ -8,9 +8,9 @@ function GuiContainer(parent, onCloseCallback)
     )
 
     local button = GUI.Button(
-        GUI.RectTransform(Vector2(1, 0.05), menuContent.RectTransform, GUI.Anchor.BottomCenter), 
-        "Save and Close", 
-        GUI.Alignment.Center, 
+        GUI.RectTransform(Vector2(1, 0.05), menuContent.RectTransform, GUI.Anchor.BottomCenter),
+        "Save and Close",
+        GUI.Alignment.Center,
         "GUIButton"
     );
 
@@ -27,7 +27,7 @@ end
 
 function CloseCBDecorator(onCloseCallback, args)
     function filler() end
-    
+
     if type(onCloseCallback) ~= "function" then
         onCloseCallback = filler
     end
@@ -39,7 +39,7 @@ function CloseCBDecorator(onCloseCallback, args)
     return decorator
 end
 
-return function(frame, onCloseCallback) 
+return function(frame, onCloseCallback)
 
     local Config = table.copy(ItemFinderMod.Config);
 
@@ -53,7 +53,7 @@ return function(frame, onCloseCallback)
         local rectTransform = nil;
         if rectTransformOrElement.toString() == "Barotrauma.RectTransform" then
             rectTransform = rectTransformOrElement;
-        
+
         elseif rectTransformOrElement.toString() == "Barotrauma.GUIListBox" then
             rectTransform = rectTransformOrElement.Content.RectTransform;
 
@@ -64,7 +64,7 @@ return function(frame, onCloseCallback)
         return GUI.RectTransform(Vector2(width, height), rectTransform, alignment)
     end
 
-    function TextLabel(text, width, height, ParentContainer) 
+    function TextLabel(text, width, height, ParentContainer)
         local label = GUI.TextBlock(GetRectTransform(width, height, ParentContainer), text, nil, nil)
         label.CanBeFocused = false
 
@@ -107,7 +107,7 @@ return function(frame, onCloseCallback)
         TextLabel("Max distance (-1 - unlimited):", 0.6, 1, ParentContainer);
 
         local input = GUI.NumberInput(GetRectTransform(0.4, 1, ParentContainer), NumberType.Int);
-        
+
         input.MinValueInt = -1
         -- input.MaxValueInt = 999999999
         input.valueStep = 1

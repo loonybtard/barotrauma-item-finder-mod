@@ -12,15 +12,15 @@ return function (Config)
 
         local button = GUI.Button(
             GetRectTransform(0.70, 0.05, row),
-            GetKeybindString(Config.KeyBindTooggle), 
+            GetKeybindString(Config.KeyBindTooggle),
             GUI.Alignment.Center,
             "GUITextBox"
         );
 
         button.OnClicked = function ()
-            button.Text = "< ... >";    
+            button.Text = "< ... >";
             GetNewKeybind(function (keys)
-                if keys == nil then 
+                if keys == nil then
                     button.Text = GetKeybindString(Config.KeyBindTooggle);
                     return
                 end;
@@ -49,7 +49,7 @@ return function (Config)
         if type(callback) ~= "function" then
             callback = function() return; end
         end
-        
+
         Hook.Add("think", "ItemFinderMod.GetNewKeybind", function()
             if PlayerInput.KeyDown(Keys.Escape) then
                 UnsetKbHook()

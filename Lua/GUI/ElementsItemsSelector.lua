@@ -7,7 +7,7 @@ return function (Config)
 
 
     -- filled in Init() from ItemPrefab.Prefabs
-    -- ItemPrefab.GetItemPrefab() too slow to use in cycle 
+    -- ItemPrefab.GetItemPrefab() too slow to use in cycle
     -- { [Prefab.Identifier] = ItemPrefab }
     local Perfabs = {};
 
@@ -34,7 +34,7 @@ return function (Config)
         itemImage.Sprite = Perfabs[itemId].InventoryIcon or Perfabs[itemId].Sprite;
 
         local infoGroup = GUI.LayoutGroup(GetRectTransform(0.65, 1, row), false, Anchor.TopCenter);
-        
+
         --[[
         ----infoGroup-----
         |  -name label-  |
@@ -80,10 +80,10 @@ return function (Config)
                 colorPricker.CurrentColor.b
             }
         end
-        
+
         -- check visibility before return
-        -- case user can start type before 
-        -- list fully inited 
+        -- case user can start type before
+        -- list fully inited
         rowFrame.Visible = isVisible(itemId, true);
         return rowFrame;
     end
@@ -160,7 +160,7 @@ return function (Config)
             -- for every item
             for id, color in pairs(Config.SearchItems) do
                 -- create row in list and save in table
-                -- in UpdateLists this table will be used 
+                -- in UpdateLists this table will be used
                 -- for filter items
                 activeElList[id] = ItemActiveRow(listActiveEl, id);
 
@@ -233,7 +233,7 @@ return function (Config)
         filter = string.lower(filter);
 
         local isFoundById = string.find(itemId, filter, 1, true) ~= nil
-        
+
         local isFoundByName = false;
         if not isFoundById then
             local name = toString(Perfabs[itemId].Name);
@@ -252,7 +252,7 @@ return function (Config)
         end
 
         TextLabel("Items to search");
-        
+
         local searchInputGroup = GUI.LayoutGroup(GetRectTransform(1, 0.05), true, Anchor.CenterLeft);
         local searchLabel = GUI.TextBlock(GetRectTransform(0.07, 1, searchInputGroup), "Filter: ");
         searchInput = GUI.CreateTextBoxWithPlaceholder(

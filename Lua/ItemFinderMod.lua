@@ -41,7 +41,7 @@ function UpdateItems()
     slItems = {}
     for searchId, color in pairs(Config.SearchItems) do
         local found = Util.GetItemsById(searchId) or {}
-        
+
         for _, item in pairs(found) do
 
             if not item.IsContained then
@@ -82,9 +82,9 @@ if hookId == nil then
             LineColor = Color(LineColor[1], LineColor[2], LineColor[3])
 
             GUI.DrawLine(
-                ptable["spriteBatch"], 
+                ptable["spriteBatch"],
                 DrawFrom, WorldToScreen(item.WorldPosition),
-                LineColor, 
+                LineColor,
                 0, 1
             );
         end

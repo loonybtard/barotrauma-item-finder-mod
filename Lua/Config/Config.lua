@@ -3,7 +3,7 @@ local ConfigFile = ConfigDir .. "/ItemFinderMod.json";
 local ConfigFileOld = ItemFinderMod.Path .. "/config.json";
 
 
-local function GetDefaultConfig() 
+local function GetDefaultConfig()
     return dofile(ItemFinderMod.Path .. "/Lua/Config/Default.lua")();
 end
 
@@ -30,7 +30,7 @@ local function FixConfig(config)
     local default = GetDefaultConfig()
 
     for dKey, dValue in pairs(default) do
-        
+
         if dKey == "SearchItems" then
             local items = {};
             for itemId, color in pairs(config.SearchItems) do
@@ -72,6 +72,7 @@ function LoadConfig()
 
     local errors, config = FixConfig(ReadConfig());
 
+    -- update file if config had errors
     if errors then
         SaveConfig(config);
     end

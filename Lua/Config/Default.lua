@@ -11,7 +11,7 @@ return function ( ... )
 	config.MaxDistance = 3000;
 
 	config.SearchItems = {
-		["timeddetonator"] = {255, 0, 0}, 
+		["timeddetonator"] = {255, 0, 0},
 		["detonator"] = {170, 0, 0}
 	};
 

@@ -1,5 +1,5 @@
 --
--- stealed from perfomanceFix mod 
+-- stealed from perfomanceFix mod
 --
 
 local easySettings = {}

@@ -57,7 +57,7 @@ ItemFinderMod.ShowGUI = function(frame)
 
     Elements.List_ItemsSelector();
 
-    
+
 end
 
 easySettings.AddMenu("ItemFinderMod", ItemFinderMod.ShowGUI)

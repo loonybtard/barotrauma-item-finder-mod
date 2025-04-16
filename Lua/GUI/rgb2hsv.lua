@@ -63,7 +63,7 @@ function rgb2hsv( r, g, b )
 
 	local h, s, v = _rgb2hsv(r, g, b);
 
-	return h * 360, s, v 
+	return h * 360, s, v
 end
 
 return rgb2hsv
