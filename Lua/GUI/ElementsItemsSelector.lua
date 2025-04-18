@@ -226,6 +226,13 @@ return function (Config)
         end
     end
 
+    function GetDefaultItemConf()
+        return {
+            ["SearchIn"] = "world",
+            ["Color"] = {math.random(50, 220), math.random(50, 220), math.random(50, 220)},
+        }
+    end
+
     function ToggleElementList(itemId)
 
         if Config.SearchItems[itemId] ~= nil then
@@ -233,7 +240,7 @@ return function (Config)
             listActiveEl.RemoveChild(activeElList[itemId]);
             activeElList[itemId] = nil;
         else
-            Config.SearchItems[itemId] = {math.random(50, 220), math.random(50, 220), math.random(50, 220)};
+            Config.SearchItems[itemId] = GetDefaultItemConf();
             activeElList[itemId] = ItemActiveRow(listActiveEl, itemId);
             listActiveEl.ScrollToEnd(0.01);
         end
