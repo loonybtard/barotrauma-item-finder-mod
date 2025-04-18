@@ -1,6 +1,7 @@
 local ConfigDir = Game.SaveFolder .. "/ModConfigs";
 local ConfigFile = ConfigDir .. "/ItemFinderMod.json";
 local ConfigFileOld = ItemFinderMod.Path .. "/config.json";
+local Migration = dofile(ItemFinderMod.Path .. "/Lua/Config/Migration.lua");
 
 
 local function GetDefaultConfig()
@@ -70,10 +71,11 @@ function LoadConfig()
         SaveConfig(GetDefaultConfig())
     end
 
-    local errors, config = FixConfig(ReadConfig());
+    local errors,   config = FixConfig(ReadConfig());
+    local migrated, config = Migration(config);
 
-    -- update file if config had errors
-    if errors then
+    -- update file if config changed
+    if errors or migrated then
         SaveConfig(config);
     end
 

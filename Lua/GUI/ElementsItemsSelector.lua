@@ -71,10 +71,10 @@ return function (Config)
         -- but work this:
         colorPricker.SelectedHue,
         colorPricker.SelectedSaturation,
-        colorPricker.SelectedValue = rgb2hsv(Config.SearchItems[itemId])
+        colorPricker.SelectedValue = rgb2hsv(Config.SearchItems[itemId].Color)
 
         colorPricker.OnColorSelected = function ( )
-            Config.SearchItems[itemId] = {
+            Config.SearchItems[itemId].Color = {
                 colorPricker.CurrentColor.r,
                 colorPricker.CurrentColor.g,
                 colorPricker.CurrentColor.b
