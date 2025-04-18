@@ -14,7 +14,7 @@ return function (Config)
     function ItemActiveRow(parent, itemId)
 
         -- used for background
-        local rowFrame = GUI.Frame(GetRectTransform(1, 0.25, parent.Content));
+        local rowFrame = GUI.Frame(GetRectTransform(1, 0.35, parent.Content));
 
         -- used for set padding via "0.95, 0.85" in "row"
         local rowWrapper = GUI.LayoutGroup(GetRectTransform(1, 1, rowFrame), true, Anchor.Center);
@@ -36,13 +36,15 @@ return function (Config)
         local infoGroup = GUI.LayoutGroup(GetRectTransform(0.65, 1, row), false, Anchor.TopCenter);
 
         --[[
-        ----infoGroup-----
-        |  -name label-  |
-        |                |
-        | -color picker- |
-        |                |
-        |   -id label-   |
-        ------------------
+        -----infoGroup-----
+        |   -name label-  |
+        |                 |
+        |  -color picker- |
+        |                 |
+        |   -search in-   |
+        |                 |
+        |    -id label-   |
+        -------------------
         --]]
 
         local itemName = Perfabs[itemId].Name;
@@ -50,7 +52,11 @@ return function (Config)
         GUI.TextBlock(GetRectTransform(1, 0.2, infoGroup), itemName, nil, nil, Alignment.Center);
 
         -- color picker element
-        local colorPricker = GUI.ColorPicker(GetRectTransform(0.7, 0.6, infoGroup));
+        local colorPricker = GUI.ColorPicker(GetRectTransform(0.7, 0.45, infoGroup));
+
+        local searchInGroup = GUI.LayoutGroup(GetRectTransform(1, 0.2, infoGroup), true);
+        GUI.TextBlock(GetRectTransform(0.5, 1, searchInGroup), "Search in:", nil, nil, Alignment.Right);        
+        local searchInDD = GUI.DropDown(GetRectTransform(0.5, 1, searchInGroup), "search in", 3, nil, false);
 
         -- label for item id
         GUI.TextBlock(GetRectTransform(1, 0.2, infoGroup), itemId, nil, nil, Alignment.Center);
@@ -59,6 +65,16 @@ return function (Config)
         local removeButton = GUI.Button(GetRectTransform(0.05, 1, row), "=>", Alignment.Center, "GUIButtonSmallFreeScale");
         removeButton.OnClicked = function ()
             ToggleElementList(itemId);
+        end
+
+
+        searchInDD.AddItem("both", "both", "search everywhere");
+        searchInDD.AddItem("world", "world", "search everywhere except any containers");
+        searchInDD.AddItem("contianer", "contianer", "search only in contianers");
+
+        searchInDD.SelectItem(Config.SearchItems[itemId].SearchIn);
+        searchInDD.OnSelected = function ( )
+            Config.SearchItems[itemId].SearchIn = searchInDD.SelectedData
         end
 
 
@@ -91,7 +107,7 @@ return function (Config)
     function ItemRow(parent, itemId)
 
         -- used for background
-        local rowFrame = GUI.Frame(GetRectTransform(1, 0.25, parent.Content));
+        local rowFrame = GUI.Frame(GetRectTransform(1, 0.35, parent.Content));
 
         -- used for set padding via "0.95, 0.85" in "row"
         local rowWrapper = GUI.LayoutGroup(GetRectTransform(1, 1, rowFrame), true, Anchor.Center);
