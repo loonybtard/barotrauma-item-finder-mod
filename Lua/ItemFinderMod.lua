@@ -39,12 +39,18 @@ function UpdateItems()
     end
 
     slItems = {}
-    for searchId, color in pairs(Config.SearchItems) do
+    for searchId, itemConf in pairs(Config.SearchItems) do
         local found = Util.GetItemsById(searchId) or {}
 
         for _, item in pairs(found) do
 
-            if not item.IsContained then
+            local isSearchedItem = (
+                (itemConf.SearchIn == "both"                              )   or
+                (itemConf.SearchIn == "world"     and not item.IsContained)   or
+                (itemConf.SearchIn == "container" and     item.IsContained)
+            );
+
+            if isSearchedItem then
                 local isRangeLimited = Config.MaxDistance ~= -1;
                 local inRange = GetDistanceToItem(GetDrawFromWorldPos(), item) < Config.MaxDistance;
 
@@ -72,14 +78,14 @@ if hookId == nil then
 
         local SearchItems = Config.SearchItems;
 
-        for _, item in pairs(slItems ) do
+        for _, item in pairs(slItems) do
             local Identifier = item.Prefab.Identifier;
             if type(Identifier) ~= "string" then
                 Identifier = Identifier.toString()
             end
 
-            local LineColor = SearchItems[Identifier]
-            LineColor = Color(LineColor[1], LineColor[2], LineColor[3])
+            local LineColor = SearchItems[Identifier].Color;
+            LineColor = Color(LineColor[1], LineColor[2], LineColor[3]);
 
             GUI.DrawLine(
                 ptable["spriteBatch"],

@@ -1,7 +1,7 @@
-return function ( ... )
+return function ()
 	local config = {}
 
-	config.version = "1";
+	config.version = "2";
 
 	config.UpdateDelayFrames = 60;
 
@@ -11,8 +11,15 @@ return function ( ... )
 	config.MaxDistance = 3000;
 
 	config.SearchItems = {
-		["timeddetonator"] = {255, 0, 0},
-		["detonator"] = {170, 0, 0}
+		["timeddetonator"] = {
+			["SearchIn"] = "world",
+			["Color"] = {255, 0, 0},
+		},
+
+		["detonator"] = {
+			["SearchIn"] = "both",
+			["Color"] = {170, 0, 0},
+		}
 	};
 
 	return config
