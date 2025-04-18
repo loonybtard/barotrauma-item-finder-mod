@@ -13,10 +13,8 @@ return function (Config)
 
     function ItemActiveRow(parent, itemId)
 
-        local rowMargin = GUI.LayoutGroup(GetRectTransform(1, 0.32, parent.Content), true, Anchor.TopCenter)
-
         -- used for background
-        local rowFrame = GUI.Frame(GetRectTransform(1, 0.97, rowMargin), "GUIFrame");
+        local rowFrame = GUI.Frame(GetRectTransform(1, 0.35, parent.Content));
 
         -- used for set padding via "0.95, 0.85" in "row"
         local rowWrapper = GUI.LayoutGroup(GetRectTransform(1, 1, rowFrame), true, Anchor.Center);
@@ -56,7 +54,7 @@ return function (Config)
         -- color picker element
         local colorPricker = GUI.ColorPicker(GetRectTransform(0.7, 0.45, infoGroup));
 
-        local searchInGroup = GUI.LayoutGroup(GetRectTransform(1, 0.25, infoGroup), true);
+        local searchInGroup = GUI.LayoutGroup(GetRectTransform(1, 0.2, infoGroup), true);
         GUI.TextBlock(GetRectTransform(0.5, 1, searchInGroup), "Search in:", nil, nil, Alignment.Right);        
         local searchInDD = GUI.DropDown(GetRectTransform(0.5, 1, searchInGroup), "search in", 3, nil, false);
 
@@ -108,10 +106,8 @@ return function (Config)
 
     function ItemRow(parent, itemId)
 
-        local rowMargin = GUI.LayoutGroup(GetRectTransform(1, 0.32, parent.Content), true, Anchor.TopCenter)
-
         -- used for background
-        local rowFrame = GUI.Frame(GetRectTransform(1, 0.97, rowMargin), "GUIFrame");
+        local rowFrame = GUI.Frame(GetRectTransform(1, 0.35, parent.Content));
 
         -- used for set padding via "0.95, 0.85" in "row"
         local rowWrapper = GUI.LayoutGroup(GetRectTransform(1, 1, rowFrame), true, Anchor.Center);
