@@ -7,14 +7,31 @@ function GuiContainer(parent, onCloseCallback)
         GUI.RectTransform(Vector2(1, 0.95), menuContent.RectTransform, GUI.Anchor.TopCenter), nil, nil, "GUIFrame"
     )
 
-    local button = GUI.Button(
-        GUI.RectTransform(Vector2(1, 0.05), menuContent.RectTransform, GUI.Anchor.BottomCenter),
+    local buttonsGroup = GUI.LayoutGroup(
+        GUI.RectTransform(Vector2(1, 0.05), menuContent.RectTransform, GUI.Anchor.BottomCenter), 
+        true
+    );
+
+    local buttonDiscard = GUI.Button(
+        GUI.RectTransform(Vector2(0.5, 1), buttonsGroup.RectTransform, GUI.Anchor.BottomLeft),
+        "Discard and Close",
+        GUI.Alignment.Center,
+        "GUIButton"
+    );
+
+    buttonDiscard.OnClicked = function ()
+        GUI.GUI.TogglePauseMenu()
+    end
+
+
+    local buttonSave = GUI.Button(
+        GUI.RectTransform(Vector2(0.5, 1), buttonsGroup.RectTransform, GUI.Anchor.BottomRight),
         "Save and Close",
         GUI.Alignment.Center,
         "GUIButton"
     );
 
-    button.OnClicked = function ()
+    buttonSave.OnClicked = function ()
         if onCloseCallback ~= nil then
             onCloseCallback()
         end
