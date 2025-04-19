@@ -13,8 +13,10 @@ return function (Config)
 
     function ItemActiveRow(parent, itemId)
 
+        local rowMargin = GUI.LayoutGroup(GetRectTransform(1, 0.32, parent.Content), true, Anchor.TopCenter)
+
         -- used for background
-        local rowFrame = GUI.Frame(GetRectTransform(1, 0.35, parent.Content));
+        local rowFrame = GUI.Frame(GetRectTransform(1, 0.97, rowMargin), "GUIFrame");
 
         -- used for set padding via "0.95, 0.85" in "row"
         local rowWrapper = GUI.LayoutGroup(GetRectTransform(1, 1, rowFrame), true, Anchor.Center);
@@ -54,7 +56,7 @@ return function (Config)
         -- color picker element
         local colorPricker = GUI.ColorPicker(GetRectTransform(0.7, 0.45, infoGroup));
 
-        local searchInGroup = GUI.LayoutGroup(GetRectTransform(1, 0.2, infoGroup), true);
+        local searchInGroup = GUI.LayoutGroup(GetRectTransform(1, 0.25, infoGroup), true);
         GUI.TextBlock(GetRectTransform(0.5, 1, searchInGroup), "Search in:", nil, nil, Alignment.Right);        
         local searchInDD = GUI.DropDown(GetRectTransform(0.5, 1, searchInGroup), "search in", 3, nil, false);
 
@@ -100,14 +102,16 @@ return function (Config)
         -- check visibility before return
         -- case user can start type before
         -- list fully inited
-        rowFrame.Visible = isVisible(itemId, true);
-        return rowFrame;
+        rowMargin.Visible = isVisible(itemId, true);
+        return rowMargin;
     end
 
     function ItemRow(parent, itemId)
 
+        local rowMargin = GUI.LayoutGroup(GetRectTransform(1, 0.32, parent.Content), true, Anchor.TopCenter)
+
         -- used for background
-        local rowFrame = GUI.Frame(GetRectTransform(1, 0.35, parent.Content));
+        local rowFrame = GUI.Frame(GetRectTransform(1, 0.97, rowMargin), "GUIFrame");
 
         -- used for set padding via "0.95, 0.85" in "row"
         local rowWrapper = GUI.LayoutGroup(GetRectTransform(1, 1, rowFrame), true, Anchor.Center);
@@ -148,8 +152,8 @@ return function (Config)
 
         GUI.TextBlock(GetRectTransform(1, 0.25, infoGroup), itemId, nil, nil, Alignment.Center);
 
-        rowFrame.Visible = isVisible(itemId);
-        return rowFrame;
+        rowMargin.Visible = isVisible(itemId);
+        return rowMargin;
     end
 
     function toString(notString)
