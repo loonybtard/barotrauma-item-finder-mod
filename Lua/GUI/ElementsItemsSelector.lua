@@ -66,7 +66,7 @@ return function (Config)
         -- => button
         local removeButton = GUI.Button(GetRectTransform(0.05, 1, row), "=>", Alignment.Center, "GUIButtonSmallFreeScale");
         removeButton.OnClicked = function ()
-            ToggleElementList(itemId);
+            RemoveElementList(itemId);
         end
 
 
@@ -129,7 +129,7 @@ return function (Config)
 
         local addButton = GUI.Button(GetRectTransform(0.05, 1, row), "<=", Alignment.Center, "GUIButtonSmallFreeScale");
         addButton.OnClicked = function()
-            ToggleElementList(itemId);
+            AddElementList(itemId);
         end
 
         local infoGroup = GUI.LayoutGroup(GetRectTransform(0.95, 1, row));
@@ -237,20 +237,23 @@ return function (Config)
         }
     end
 
-    function ToggleElementList(itemId)
+    function AddElementList(itemId)
+        Config.SearchItems[itemId] = GetDefaultItemConf();
 
-        if Config.SearchItems[itemId] ~= nil then
-            Config.SearchItems[itemId] = nil;
-            listActiveEl.RemoveChild(activeElList[itemId]);
-            activeElList[itemId] = nil;
-        else
-            Config.SearchItems[itemId] = GetDefaultItemConf();
-            activeElList[itemId] = ItemActiveRow(listActiveEl, itemId);
-            listActiveEl.ScrollToEnd(0.01);
-        end
+        listActiveEl.RemoveChild(activeElList[itemId]);
+        activeElList[itemId] = ItemActiveRow(listActiveEl, itemId);
+        
+        listActiveEl.ScrollToEnd(0.01);
 
-        UpdateLists()
+        UpdateLists();
+    end
 
+    function RemoveElementList(itemId)
+        listActiveEl.RemoveChild(activeElList[itemId]);
+        Config.SearchItems[itemId] = nil;
+        activeElList[itemId] = nil;
+
+        UpdateLists();
     end
 
     -- created in Init()

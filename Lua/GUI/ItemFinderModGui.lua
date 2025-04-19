@@ -34,7 +34,7 @@ end)
 local function OnClose(config)
     ItemFinderMod.Config = config;
 
-    SaveConfig(config);
+    SaveConfig(ItemFinderMod.Config);
 end
 
 ItemFinderMod.ShowGUI = function(frame)
