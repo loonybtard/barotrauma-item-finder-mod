@@ -156,13 +156,6 @@ return function (Config)
         return rowMargin;
     end
 
-    function toString(notString)
-        if type(notString) ~= "string" then
-            notString = notString.toString()
-        end
-        return notString;
-    end
-
     -- tables for row elements used for faster search in UpdateLists()
     local activeElList = {}
     local allElList = {}
