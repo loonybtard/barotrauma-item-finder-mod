@@ -2,7 +2,7 @@
 -- based on performancefix_gui.lua from PerformanceFix mod (https://steamcommunity.com/sharedfiles/filedetails/?id=2701251094)
 --
 
-local easySettings = dofile(ItemFinderMod.Path .. "/Lua/easysettings.lua")
+local easySettings = dofile(ItemFinderMod.Path .. "/Lua/Lib/easysettings.lua")
 
 local function ClearElements(guicomponent, removeItself)
     local toRemove = {}

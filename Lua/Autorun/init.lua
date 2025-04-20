@@ -22,35 +22,13 @@ dofile(ItemFinderMod.Path .. "/Lua/GUI/ItemFinderModGui.lua");
 -- load main logic
 local ToggleSnaplines  = dofile(ItemFinderMod.Path .. "/Lua/ItemFinderMod.lua");
 
+local KeybindLib = dofile( ItemFinderMod.Path .. "/Lua/Lib/KeybindLib.lua" );
+
 Hook.Add("think", "ItemFinderMod.ToggleSnaplines", function()
-    if IsKeybindHitted() then
+    if KeybindLib.IsKeybindHitted(ItemFinderMod.Config.KeyBindTooggle) then
         ToggleSnaplines();
     end
 end);
-
-function IsKeybindHitted()
-    local keys = ItemFinderMod.Config.KeyBindTooggle;
-
-    for i, key in pairs(keys) do
-
-        -- KeyDown returns true on every frame
-        -- KeyHit returns only at frame when pressed
-        -- but user cant press all keys at one frame
-        -- so we use KeyHit only for last key
-        local isPressed;
-        if i == #keys then
-            isPressed = PlayerInput.KeyHit(Keys[key]);
-        else
-            isPressed = PlayerInput.KeyDown(Keys[key]);
-        end
-
-        if not isPressed then
-            return false;
-        end
-    end
-
-    return true;
-end
 
 -- source: https://stackoverflow.com/a/26367080
 function table.copy(obj, seen)
