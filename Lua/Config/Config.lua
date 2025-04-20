@@ -35,7 +35,6 @@ local function FixConfig(config)
         if dKey == "SearchItems" then
             local items = {};
             for itemId, color in pairs(config.SearchItems) do
-                print(itemId, " ", color);
                 if type(color) == "table" then
                     items[itemId] = color
                 else
