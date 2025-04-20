@@ -72,7 +72,7 @@ return function (Config)
 
         searchInDD.AddItem("both", "both", "search everywhere");
         searchInDD.AddItem("world", "world", "search everywhere except any containers");
-        searchInDD.AddItem("contianer", "contianer", "search only in contianers");
+        searchInDD.AddItem("container", "container", "search only in containers");
 
         searchInDD.SelectItem(Config.SearchItems[itemId].SearchIn);
         searchInDD.OnSelected = function ( )
