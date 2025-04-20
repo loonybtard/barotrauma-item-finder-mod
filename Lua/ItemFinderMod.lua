@@ -4,7 +4,7 @@ local snaplinesActive = false;
 local slItems = {}
 local hookId = nil;
 
-function WorldToScreen(WorldPosition)
+local function WorldToScreen(WorldPosition)
     if WorldPosition == nil then
         return Vector2(0,0)
     end
@@ -12,7 +12,7 @@ function WorldToScreen(WorldPosition)
     return Game.GameScreen.Cam.WorldToScreen(WorldPosition);
 end
 
-function GetDrawFromWorldPos()
+local function GetDrawFromWorldPos()
     local LocalPlayerChar = Character.Controlled;
 
     local DrawFrom;
@@ -25,20 +25,19 @@ function GetDrawFromWorldPos()
     return DrawFrom;
 end
 
-function GetDistanceToItem(From, Item)
+local function GetDistanceToItem(From, Item)
     local To = WorldToScreen(Item.WorldPosition);
 
     return math.sqrt( math.pow(From.X - To.X, 2) + math.pow(From.Y - To.Y, 2) );
 end
 
-function UpdateItems()
-    Config = ItemFinderMod.Config;
-    if not snaplinesActive  then
-        slItems = {}
-        return
+local function _UpdateItems()
+    local items = {}
+
+    if not snaplinesActive then
+        return items;
     end
 
-    slItems = {}
     for searchId, itemConf in pairs(Config.SearchItems) do
         local found = Util.GetItemsById(searchId) or {}
 
@@ -55,50 +54,72 @@ function UpdateItems()
                 local inRange = GetDistanceToItem(GetDrawFromWorldPos(), item) < Config.MaxDistance;
 
                 if not isRangeLimited or inRange then
-                    table.insert(slItems, item);
+                    table.insert(items, item);
                 end
             end
         end
     end
+
+    return items;
+end
+
+local UpdateItems = coroutine.create(function()
+    local frameCounter = 0;
+
+    while (true) do
+        frameCounter = frameCounter + 1;
+
+        if frameCounter == Config.UpdateDelayFrames then
+            Config = ItemFinderMod.Config;
+            slItems = _UpdateItems();
+            frameCounter = 0;
+        end
+
+        coroutine.yield();
+    end
+
+end);
+
+
+local function DrawLines(ptable)
+    
+    local DrawFrom = GetDrawFromWorldPos();
+
+    local SearchItems = Config.SearchItems;
+
+    local localSlItems = slItems;
+    for _, item in pairs(localSlItems) do
+        local Identifier = item.Prefab.Identifier;
+        if type(Identifier) ~= "string" then
+            Identifier = Identifier.toString()
+        end
+
+        local LineColor = SearchItems[Identifier].Color;
+        LineColor = Color(LineColor[1], LineColor[2], LineColor[3]);
+
+        GUI.DrawLine(
+            ptable["spriteBatch"],
+            DrawFrom, WorldToScreen(item.WorldPosition),
+            LineColor,
+            0, 1
+        );
+    end
+
 end
 
 -- hook init
 if hookId == nil then
-    local frameCounter = 0;
 
     hookId = Hook.Patch("Barotrauma.GUI", "Draw", function(instance, ptable)
 
-        frameCounter = frameCounter + 1;
-        if frameCounter % Config.UpdateDelayFrames == 0 then
-            UpdateItems();
-            frameCounter = 0;
-        end
+        coroutine.resume(UpdateItems);
 
-        local DrawFrom = GetDrawFromWorldPos();
-
-        local SearchItems = Config.SearchItems;
-
-        for _, item in pairs(slItems) do
-            local Identifier = item.Prefab.Identifier;
-            if type(Identifier) ~= "string" then
-                Identifier = Identifier.toString()
-            end
-
-            local LineColor = SearchItems[Identifier].Color;
-            LineColor = Color(LineColor[1], LineColor[2], LineColor[3]);
-
-            GUI.DrawLine(
-                ptable["spriteBatch"],
-                DrawFrom, WorldToScreen(item.WorldPosition),
-                LineColor,
-                0, 1
-            );
-        end
+        DrawLines(ptable);
 
     end)
 end
 
 return function ()
     snaplinesActive = not snaplinesActive;
-    return snaplinesActive ;
+    return snaplinesActive;
 end
