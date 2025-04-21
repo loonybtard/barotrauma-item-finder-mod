@@ -14,9 +14,21 @@ local function V2(config)
 	return config;
 end
 
+local function V3(config)
+	config.version = "3";
+
+	for itemId, itemConf in pairs(config.SearchItems) do
+		itemConf.Group = false;
+		config.SearchItems[itemId] = itemConf;
+	end
+
+	return config;
+end
+
 local function DoMigrations(config)
 	local migrations = {
 		["1"] = V2,
+		["2"] = V3
 	}
 
 	local migrated = false;

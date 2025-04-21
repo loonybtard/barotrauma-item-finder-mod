@@ -1,7 +1,7 @@
 return function ()
 	local config = {}
 
-	config.version = "2";
+	config.version = "3";
 
 	config.UpdateDelayFrames = 60;
 
@@ -14,11 +14,13 @@ return function ()
 		["timeddetonator"] = {
 			["SearchIn"] = "world",
 			["Color"] = {255, 0, 0},
+			["Group"] = false,
 		},
 
 		["detonator"] = {
 			["SearchIn"] = "both",
 			["Color"] = {170, 0, 0},
+			["Group"] = false,
 		}
 	};
 
