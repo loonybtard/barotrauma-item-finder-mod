@@ -1,7 +1,5 @@
 local Config = ItemFinderMod.Config; -- updated in UpdateItems()
 
-local GroupDist = 150;
-
 local snaplinesActive = false;
 local slPoints = {}
 local hookId = nil;
@@ -54,7 +52,7 @@ local function CheckFoundItem(item)
 end
 
 local function GetSector(pos)
-    local sectorSize = math.ceil(GroupDist / 2);
+    local sectorSize = math.ceil(Config.GroupDistance / 2);
     return Vector2(math.ceil(pos.X / sectorSize), math.ceil(pos.Y / sectorSize));
 end
 

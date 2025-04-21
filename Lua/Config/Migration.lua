@@ -17,8 +17,10 @@ end
 local function V3(config)
 	config.version = "3";
 
+	config.GroupDistance = 200;
+
 	for itemId, itemConf in pairs(config.SearchItems) do
-		itemConf.Group = false;
+		itemConf.Group = true;
 		config.SearchItems[itemId] = itemConf;
 	end
 

@@ -54,6 +54,9 @@ ItemFinderMod.ShowGUI = function(frame)
     Elements.Input_DrawFromCharacter(left);
     Elements.Input_Distance(right);
 
+    left, right = Elements.Row_TwoCols();
+    Elements.Input_GroupDistance(left);
+
 
     Elements.List_ItemsSelector();
 

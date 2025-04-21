@@ -108,6 +108,24 @@ return function(frame, onCloseCallback)
         TextLabel("", 0.25, 1, ParentContainer);
     end
 
+    Elements.Input_GroupDistance = function (ParentContainer)
+        TextLabel("Group distance:", 0.55, 1, ParentContainer);
+
+        local input = GUI.NumberInput(GetRectTransform(0.2, nil, ParentContainer), NumberType.Int)
+
+        input.MinValueInt = 10
+        input.MaxValueInt = 5000
+        input.valueStep = 1
+
+        input.IntValue = Config.GroupDistance;
+
+        input.OnValueChanged = function ()
+            Config.GroupDistance = input.IntValue;
+        end
+
+        TextLabel("", 0.25, 1, ParentContainer);
+    end
+
     Elements.Input_DrawFromCharacter = function (ParentContainer)
         TextLabel("Draw from character:", 0.6, 1, ParentContainer);
 
