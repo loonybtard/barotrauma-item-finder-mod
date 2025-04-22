@@ -2,11 +2,7 @@ local ConfigDir = Game.SaveFolder .. "/ModConfigs";
 local ConfigFile = ConfigDir .. "/ItemFinderMod.json";
 local ConfigFileOld = ItemFinderMod.Path .. "/config.json";
 local Migration = dofile(ItemFinderMod.Path .. "/Lua/Config/Migration.lua");
-
-
-local function GetDefaultConfig()
-    return dofile(ItemFinderMod.Path .. "/Lua/Config/Default.lua")();
-end
+local Default = dofile(ItemFinderMod.Path .. "/Lua/Config/Default.lua");
 
 local function ReadConfig()
     return json.parse(File.Read(ConfigFile))
@@ -28,7 +24,7 @@ local function FixConfig(config)
 
     local fixed = false;
 
-    local default = GetDefaultConfig()
+    local default = Default.Config()
 
     for dKey, dValue in pairs(default) do
 
@@ -67,7 +63,7 @@ end
 function LoadConfig()
     -- default config if config.json not exists
     if not File.Exists(ConfigFile) then
-        SaveConfig(GetDefaultConfig())
+        SaveConfig(Default.Config())
     end
 
     local errors,   config = FixConfig(ReadConfig());

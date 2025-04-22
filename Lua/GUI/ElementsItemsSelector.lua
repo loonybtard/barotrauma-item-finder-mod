@@ -1,4 +1,5 @@
 local Hsx = dofile(ItemFinderMod.Path .. "/Lua/Lib/Hsx.lua");
+local Default = dofile(ItemFinderMod.Path .. "/Lua/Config/Default.lua");
 
 return function (Config)
 
@@ -88,7 +89,7 @@ return function (Config)
         -- group checkbox setup
         groupCheck.Selected = Config.SearchItems[itemId].Group;
         groupCheck.OnSelected = function ()
-            Config.SearchItems[itemId].Group = input.Selected;
+            Config.SearchItems[itemId].Group = groupCheck.Selected;
         end
         groupCheck.ToolTip = 
             "When checked, elements located at a distance of " .. Config.GroupDistance .." will " .. 
@@ -239,15 +240,8 @@ return function (Config)
         end
     end
 
-    function GetDefaultItemConf()
-        return {
-            ["SearchIn"] = "world",
-            ["Color"] = {math.random(50, 220), math.random(50, 220), math.random(50, 220)},
-        }
-    end
-
     function AddElementList(itemId)
-        Config.SearchItems[itemId] = GetDefaultItemConf();
+        Config.SearchItems[itemId] = Default.Item(itemId);
 
         listActiveEl.RemoveChild(activeElList[itemId]);
         activeElList[itemId] = ItemActiveRow(listActiveEl, itemId);
