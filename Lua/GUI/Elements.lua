@@ -1,5 +1,4 @@
 local easySettings = dofile(ItemFinderMod.Path .. "/Lua/Lib/easysettings.lua");
-local rgb2hsv = dofile(ItemFinderMod.Path .. "/Lua/Lib/rgb2hsv.lua");
 
 function GuiContainer(parent, onCloseCallback)
     local menuContent = GUI.Frame(GUI.RectTransform(Vector2(0.4, 0.7), parent.RectTransform, GUI.Anchor.Center))

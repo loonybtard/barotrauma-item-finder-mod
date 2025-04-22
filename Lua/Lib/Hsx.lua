@@ -28,7 +28,28 @@ SOFTWARE.
 
 local min, max, abs = math.min, math.max, math.abs
 
-function _rgb2hsv( r, g, b )
+local Hsx = {}
+
+local function _hsv2rgb( h, s, v )
+	local C = v * s
+	local m = v - C
+	local r, g, b = m, m, m
+	if h == h then
+		local h_ = (h % 1.0) * 6
+		local X = C * (1 - abs(h_ % 2 - 1))
+		C, X = C + m, X + m
+		if     h_ < 1 then r, g, b = C, X, m
+		elseif h_ < 2 then r, g, b = X, C, m
+		elseif h_ < 3 then r, g, b = m, C, X
+		elseif h_ < 4 then r, g, b = m, X, C
+		elseif h_ < 5 then r, g, b = X, m, C
+		else               r, g, b = C, m, X
+		end
+	end
+	return r, g, b
+end
+
+local function _rgb2hsv( r, g, b )
 	local M, m = max( r, g, b ), min( r, g, b )
 	local C = M - m
 	local K = 1.0/(6.0 * C)
@@ -42,8 +63,21 @@ function _rgb2hsv( r, g, b )
 	return h, M == 0.0 and 0.0 or C / M, M
 end
 
--- wrapper for preparing arguments
-function rgb2hsv( r, g, b )
+-- wrappers for preparing arguments
+
+function Hsx.hsv2rgb( h, s, v )
+	-- if passed table in h
+	if type(h) == "table" then
+		s = h[2] or 0
+		v = h[3] or 0
+		h = h[1] or 0
+	end
+
+	local r, g, b = _hsv2rgb(h, s, v);
+	return r * 255, g * 255, b * 255;
+end
+
+function Hsx.rgb2hsv( r, g, b )
 	-- if passed Color or table in r
 	if g == nil then
 		if type(r) == "table" then
@@ -66,4 +100,6 @@ function rgb2hsv( r, g, b )
 	return h * 360, s, v
 end
 
-return rgb2hsv
+
+
+return Hsx;

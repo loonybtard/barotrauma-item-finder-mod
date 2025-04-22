@@ -1,3 +1,4 @@
+local Hsx = dofile(ItemFinderMod.Path .. "/Lua/Lib/Hsx.lua");
 
 return function (Config)
 
@@ -104,7 +105,7 @@ return function (Config)
         -- but work this:
         colorPricker.SelectedHue,
         colorPricker.SelectedSaturation,
-        colorPricker.SelectedValue = rgb2hsv(Config.SearchItems[itemId].Color)
+        colorPricker.SelectedValue = Hsx.rgb2hsv(Config.SearchItems[itemId].Color)
 
         colorPricker.OnColorSelected = function ( )
             Config.SearchItems[itemId].Color = {
