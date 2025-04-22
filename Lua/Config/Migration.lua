@@ -5,7 +5,7 @@ local function V2(config)
 	for itemId, color in pairs(config.SearchItems) do
 		
 		config.SearchItems[itemId] = {
-			["SearchIn"] = "world",
+			["SearchIn"] = "both",
 			["Color"] = color
 		};
 
