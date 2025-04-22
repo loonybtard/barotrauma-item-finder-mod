@@ -13,16 +13,16 @@ return function (Config)
 
     function ItemActiveRow(parent, itemId)
 
-        local rowMargin = GUI.LayoutGroup(GetRectTransform(1, 0.32, parent.Content), true, Anchor.TopCenter)
+        local rowMargin = GUI.LayoutGroup(GetRectTransform(1, 0.27, parent.Content), true, Anchor.TopCenter)
 
         -- used for background
-        local rowFrame = GUI.Frame(GetRectTransform(1, 0.97, rowMargin), "GUIFrame");
+        local rowFrame = GUI.Frame(GetRectTransform(1, 0.98, rowMargin), "GUIFrame");
 
         -- used for set padding via "0.95, 0.85" in "row"
         local rowWrapper = GUI.LayoutGroup(GetRectTransform(1, 1, rowFrame), true, Anchor.Center);
 
         -- main container for elemetns
-        local row = GUI.LayoutGroup(GetRectTransform(0.95, 0.85, rowWrapper), true, Anchor.CenterLeft);
+        local row = GUI.LayoutGroup(GetRectTransform(0.95, 0.9, rowWrapper), true, Anchor.CenterLeft);
 
         --[[
         -----------------row-----------------
@@ -45,23 +45,27 @@ return function (Config)
         |                 |
         |   -search in-   |
         |                 |
-        |    -id label-   |
+        |  -group check-  |
         -------------------
         --]]
 
         local itemName = Perfabs[itemId].Name;
         -- label for item name
-        GUI.TextBlock(GetRectTransform(1, 0.2, infoGroup), itemName, nil, nil, Alignment.Center);
+        local labelName = GUI.TextBlock(GetRectTransform(1, 0.17, infoGroup), itemName, nil, nil, Alignment.Center);
+        labelName.ToolTip = itemId
 
         -- color picker element
         local colorPricker = GUI.ColorPicker(GetRectTransform(0.7, 0.45, infoGroup));
 
-        local searchInGroup = GUI.LayoutGroup(GetRectTransform(1, 0.25, infoGroup), true);
+        -- search in
+        local searchInGroup = GUI.LayoutGroup(GetRectTransform(1, 0.22, infoGroup), true);
         GUI.TextBlock(GetRectTransform(0.5, 1, searchInGroup), "Search in:", nil, nil, Alignment.Right);        
         local searchInDD = GUI.DropDown(GetRectTransform(0.5, 1, searchInGroup), "search in", 3, nil, false);
 
-        -- label for item id
-        GUI.TextBlock(GetRectTransform(1, 0.2, infoGroup), itemId, nil, nil, Alignment.Center);
+        -- group checkbox
+        local groupCheckGroup = GUI.LayoutGroup(GetRectTransform(1, 0.22, infoGroup), true);
+        GUI.TextBlock(GetRectTransform(0.4, 1, groupCheckGroup), "Group:", nil, nil, Alignment.Right);
+        local groupCheck = GUI.TickBox(GetRectTransform(0.6, 1, groupCheckGroup));
 
         -- => button
         local removeButton = GUI.Button(GetRectTransform(0.05, 1, row), "=>", Alignment.Center, "GUIButtonSmallFreeScale");
@@ -70,6 +74,7 @@ return function (Config)
         end
 
 
+        -- search in setup
         searchInDD.AddItem("both", "both", "search everywhere");
         searchInDD.AddItem("world", "world", "search everywhere except any containers");
         searchInDD.AddItem("container", "container", "search only in containers");
@@ -78,6 +83,16 @@ return function (Config)
         searchInDD.OnSelected = function ( )
             Config.SearchItems[itemId].SearchIn = searchInDD.SelectedData
         end
+
+        -- group checkbox setup
+        groupCheck.Selected = Config.SearchItems[itemId].Group;
+        groupCheck.OnSelected = function ()
+            Config.SearchItems[itemId].Group = input.Selected;
+        end
+        groupCheck.ToolTip = 
+            "When checked, elements located at a distance of " .. Config.GroupDistance .." will " .. 
+            "be counted as one element. \n" .. 
+            "Allows you to reduce the number of lines";
 
 
         -- i dunno why none of this works:
@@ -108,16 +123,16 @@ return function (Config)
 
     function ItemRow(parent, itemId)
 
-        local rowMargin = GUI.LayoutGroup(GetRectTransform(1, 0.32, parent.Content), true, Anchor.TopCenter)
+        local rowMargin = GUI.LayoutGroup(GetRectTransform(1, 0.27, parent.Content), true, Anchor.TopCenter)
 
         -- used for background
-        local rowFrame = GUI.Frame(GetRectTransform(1, 0.97, rowMargin), "GUIFrame");
+        local rowFrame = GUI.Frame(GetRectTransform(1, 0.98, rowMargin), "GUIFrame");
 
         -- used for set padding via "0.95, 0.85" in "row"
         local rowWrapper = GUI.LayoutGroup(GetRectTransform(1, 1, rowFrame), true, Anchor.Center);
 
         -- main container for elemetns
-        local row = GUI.LayoutGroup(GetRectTransform(0.95, 0.85, rowWrapper), true, Anchor.CenterLeft);
+        local row = GUI.LayoutGroup(GetRectTransform(0.95, 0.9, rowWrapper), true, Anchor.CenterLeft);
 
         --[[
         ---------------row-------------
@@ -275,8 +290,6 @@ return function (Config)
         for perf in ItemPrefab.Prefabs do
             Perfabs[toString(perf.Identifier)] = perf;
         end
-
-        TextLabel("Items to search");
 
         local searchInputGroup = GUI.LayoutGroup(GetRectTransform(1, 0.05), true, Anchor.CenterLeft);
         local searchLabel = GUI.TextBlock(GetRectTransform(0.07, 1, searchInputGroup), "Filter: ");
