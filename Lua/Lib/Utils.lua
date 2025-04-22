@@ -23,3 +23,19 @@ function toString(notString)
     end
     return notString;
 end
+
+local _print = print;
+print = function ( ... )
+    local out = {};
+    for i,v in ipairs({...}) do
+        
+        if type(v) == "table" then
+            v = json.serialize(v)
+        end
+
+        table.insert(out, v);
+        table.insert(out, " ");
+    end
+
+    _print(table.unpack(out));
+end
