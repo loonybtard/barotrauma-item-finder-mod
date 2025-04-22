@@ -9,6 +9,14 @@ function table.copy(obj, seen)
   return res
 end
 
+function table.merge(target, source)
+    for k,v in pairs(source) do
+        target[k] = v;
+    end
+
+    return target;
+end
+
 function toString(notString)
     if type(notString) ~= "string" then
         notString = notString.toString()
