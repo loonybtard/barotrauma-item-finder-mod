@@ -32,7 +32,7 @@ local function GetDistanceToItem(From, Item)
 end
 
 local function CheckFoundItem(item)
-    local id = toString(item.Prefab.Identifier);
+    local id = string.tostring(item.Prefab.Identifier);
     local itemConf = Config.SearchItems[id];
 
     local isSearchedItem = (
@@ -107,7 +107,7 @@ local function GoupsToPoints(groups)
             local Y = next(groups[X]);
             IterateNeighbors(table.copy(groups), Vector2(X, Y), function(items, sector)
                 for _,item in pairs(items) do
-                    local id = toString(item.Prefab.Identifier);
+                    local id = string.tostring(item.Prefab.Identifier);
                     packs[id] = packs[id] or {
                         ["id"] = id,
                         ["X"] = 0,

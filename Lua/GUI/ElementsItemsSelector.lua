@@ -271,7 +271,7 @@ return function (Config)
 
         local isFoundByName = false;
         if not isFoundById then
-            local name = toString(Perfabs[itemId].Name);
+            local name = string.tostring(Perfabs[itemId].Name);
             name = string.lower(name);
             isFoundByName = string.find(name, filter, 1, true) ~= nil;
         end
@@ -283,7 +283,7 @@ return function (Config)
     function Init()
 
         for perf in ItemPrefab.Prefabs do
-            Perfabs[toString(perf.Identifier)] = perf;
+            Perfabs[string.tostring(perf.Identifier)] = perf;
         end
 
         local searchInputGroup = GUI.LayoutGroup(GetRectTransform(1, 0.05), true, Anchor.CenterLeft);

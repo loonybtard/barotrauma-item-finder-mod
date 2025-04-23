@@ -72,7 +72,7 @@ function Default.Item(id, source)
 	local tags = {};
 	if prefab ~= nil then
 		for tag in prefab.Tags do
-			tags[toString(tag)] = true;
+			tags[string.tostring(tag)] = true;
 		end
 	end
 
