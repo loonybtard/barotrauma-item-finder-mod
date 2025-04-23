@@ -17,7 +17,7 @@ function table.merge(target, source)
     return target;
 end
 
-function toString(notString)
+function string.tostring(notString)
     if type(notString) ~= "string" then
         notString = notString.toString()
     end
