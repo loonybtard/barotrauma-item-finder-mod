@@ -36,9 +36,11 @@ local function CheckFoundItem(item)
     local itemConf = Config.SearchItems[id];
 
     local isSearchedItem = (
-        (itemConf.SearchIn == "both"                              )   or
-        (itemConf.SearchIn == "world"     and not item.IsContained)   or
-        (itemConf.SearchIn == "container" and     item.IsContained)
+        not item.Removed and (
+            (itemConf.SearchIn == "both"                              )   or
+            (itemConf.SearchIn == "world"     and not item.IsContained)   or
+            (itemConf.SearchIn == "container" and     item.IsContained)
+        )
     );
 
     if isSearchedItem then
