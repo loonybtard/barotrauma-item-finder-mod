@@ -1,3 +1,6 @@
+local KeybindLib = dofile(ItemFinderMod.Path .. "/Lua/Lib/KeybindLib.lua");
+local GetScreenItersecPoint = dofile(ItemFinderMod.Path .. "/Lua/Lib/GetScreenItersecPoint.lua");
+
 local Config = ItemFinderMod.Config; -- updated in UpdateItems()
 
 local snaplinesActive = false;
@@ -25,10 +28,19 @@ local function GetDrawFromWorldPos()
     return DrawFrom;
 end
 
+---@param from Vector2
+---@param to Vector2
+---@return number
+local function GetDistance(from, to)
+    return math.sqrt( math.pow(from.X - to.X, 2) + math.pow(from.Y - to.Y, 2) );
+end
+
+---@param From Vector2
+---@param Item Barotrauma.Item
+---@return number
 local function GetDistanceToItem(From, Item)
     local To = WorldToScreen(Item.WorldPosition);
-
-    return math.sqrt( math.pow(From.X - To.X, 2) + math.pow(From.Y - To.Y, 2) );
+    return GetDistance(From, To);
 end
 
 local function CheckFoundItem(item)
@@ -229,8 +241,59 @@ local function DrawLines(ptable)
                 LineColor,
                 0, 1
             );
+
+            if KeybindLib.IsKeybindDown("LeftAlt") then
+                DrawLineDistance(
+                    ptable["spriteBatch"],
+                    DrawFrom, WorldToScreen(DrawTo),
+                    LineColor
+                );
+            end
         end
     end
+
+end
+
+---@param Px number
+---@return number
+local function PxToMeters (Px)
+	-- https://github.com/evilfactory/LuaCsForBarotrauma/blob/4916de359c89ab188ff4f778c51c98f4e523502c/Barotrauma/BarotraumaShared/SharedSource/Physics/Physics.cs#L22
+	local DisplayToRealWorldRatio = 1.0 / 100.0;
+	return Px * DisplayToRealWorldRatio;
+end
+
+function DrawLineDistance(spriteBatch, from, to, color)
+    
+    local point = GetScreenItersecPoint(from, to);
+    if point == nil then
+        return;
+    end
+
+    local dist = GetDistance(from, to);
+    dist = string.format("%.1fm", PxToMeters(dist));
+
+    local font = GUI.Style.Font;
+    local padding = 3;
+    local strWidth = (string.len(dist) * font.Size / 2);
+    local strHeight = font.Size;
+
+    if point.X ~= 0 and point.X > GUI.ReferenceResolution.X - padding - strWidth then
+        point.X = GUI.ReferenceResolution.X - padding - strWidth;
+    elseif point.X == 0 then
+        point.X = padding;
+    end
+
+    if point.Y ~= 0 and point.Y > GUI.ReferenceResolution.Y - padding - strHeight then
+        point.Y = GUI.ReferenceResolution.Y - padding - strHeight;
+    elseif point.Y == 0 then
+        point.Y = padding;
+    end
+
+
+
+    GUI.DrawString(spriteBatch, point, dist, color, Color(0,0,0), padding, GUI.Style.Font);
+
+
 
 end
 
