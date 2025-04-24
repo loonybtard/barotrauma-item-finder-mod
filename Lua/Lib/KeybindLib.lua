@@ -1,9 +1,20 @@
 local KeybindLib = {};
 
----@param keys string[]
+---list of all available keys.
+---used to check key existance
+KeybindLib.Keys = LuaUserData.CreateEnumTable("Microsoft.Xna.Framework.Input.Keys");
+
+---@param keys table<string>
 function KeybindLib.IsKeybindHitted(keys)
+    if type(keys) == "string" then
+        keys = {keys}
+    end
 
     for i, key in pairs(keys) do
+
+        if KeybindLib.Keys[key] == nil then
+            return false;
+        end
 
         -- KeyDown returns true on every frame
         -- KeyHit returns only at frame when pressed
@@ -24,9 +35,33 @@ function KeybindLib.IsKeybindHitted(keys)
     return true;
 end
 
+---@param keys table<string>
+function KeybindLib.IsKeybindDown(keys)
+    if type(keys) == "string" then
+        keys = {keys}
+    end
+
+    for i, key in pairs(keys) do
+
+        if KeybindLib.Keys[key] == nil then
+            return false;
+        end
+        
+        local isPressed;
+        if i == #keys then
+            isPressed = PlayerInput.KeyDown(Keys[key]);
+        end
+
+        if not isPressed then
+            return false;
+        end
+    end
+
+    return true;
+end
 
 local function UnsetKbHook()
-    Hook.Remove("think", "ItemFinderMod.GetNewKeybind");
+    Hook.Remove("think", "KeybindLib.GetNewKeybind");
 end
 
 function KeybindLib.GetNewKeybind(callback)
