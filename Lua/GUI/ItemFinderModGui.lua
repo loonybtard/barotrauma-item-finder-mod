@@ -63,7 +63,7 @@ ItemFinderMod.ShowGUI = function(frame)
 
 end
 
-easySettings.AddMenu("ItemFinderMod", ItemFinderMod.ShowGUI)
+easySettings.AddMenu("Item Finder Mod", ItemFinderMod.ShowGUI)
 
 ItemFinderMod.ToggleGUI = function ()
     GUI.GUI.TogglePauseMenu()
