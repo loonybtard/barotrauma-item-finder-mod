@@ -242,7 +242,7 @@ local function DrawLines(ptable)
                 0, 1
             );
 
-            if KeybindLib.IsKeybindDown("LeftAlt") then
+            if Config.DistanceToItemOnAlt and KeybindLib.IsKeybindDown("LeftAlt") then
                 DrawLineDistance(
                     ptable["spriteBatch"],
                     DrawFrom, WorldToScreen(DrawTo),

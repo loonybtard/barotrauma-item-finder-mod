@@ -125,6 +125,18 @@ return function(frame, onCloseCallback)
         TextLabel("", 0.25, 1, ParentContainer);
     end
 
+    Elements.Input_DistanceToItemOnAlt = function (ParentContainer)
+        TextLabel("Distance to item on Alt:", 0.7, 1, ParentContainer);
+
+        local input = GUI.TickBox(GetRectTransform(0.2, 1, ParentContainer));
+        input.Selected = Config.DistanceToItemOnAlt;
+        input.OnSelected = function ()
+            Config.DistanceToItemOnAlt = input.Selected;
+        end
+
+        TextLabel("", 0.2, 1, ParentContainer);
+    end
+
     Elements.Input_DrawFromCharacter = function (ParentContainer)
         TextLabel("Draw from character:", 0.6, 1, ParentContainer);
 

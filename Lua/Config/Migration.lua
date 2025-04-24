@@ -27,10 +27,19 @@ local function V3(config)
 	return config;
 end
 
+local function V4(config)
+	config.version = "4";
+
+	config.DistanceToItemOnAlt = true;
+
+	return config;
+end
+
 local function DoMigrations(config)
 	local migrations = {
 		["1"] = V2,
-		["2"] = V3
+		["2"] = V3,
+		["3"] = V4,
 	}
 
 	local migrated = false;

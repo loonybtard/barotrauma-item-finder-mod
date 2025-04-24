@@ -4,16 +4,14 @@ local Default = {};
 function Default.Config()
 	local config = {};
 
-	config.version = "3";
+	config.version = "4";
 
 	config.UpdateDelayFrames = 60;
-
 	config.KeyBindTooggle = {"Q"};
-
 	config.DrawFromCharacter = false;
 	config.MaxDistance = 3000;
-
 	config.GroupDistance = 200;
+	config.DistanceToItemOnAlt = true;
 
 	config.SearchItems = {
 		["timeddetonator"] = {
