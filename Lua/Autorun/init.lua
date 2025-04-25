@@ -13,6 +13,9 @@ elseif ItemFinderMod.Inited then
 end
 ItemFinderMod.Inited = true;
 
+local cmd_itemfindermod_init = dofile(ItemFinderMod.Path .. "/Lua/Command/itemfindermod_init.lua");
+Game.AddCommand("itemfindermod_init", "init ItemFinderMod", cmd_itemfindermod_init);
+
 dofile(ItemFinderMod.Path .. "/Lua/Lib/Utils.lua");
 
 -- load config

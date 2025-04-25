@@ -70,6 +70,6 @@ ItemFinderMod.ToggleGUI = function ()
     GUI.GUI.TogglePauseMenu()
 
     if GUI.GUI.PauseMenuOpen then
-        easySettings.Open("ItemFinderMod")
+        easySettings.Open("Item Finder Mod")
     end
 end
