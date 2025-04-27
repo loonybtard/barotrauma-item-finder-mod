@@ -52,7 +52,7 @@ local function FixConfig(config)
     return fixed, config;
 end
 
-local function SaveConfig(config)
+function ItemFinderMod.SaveConfig(config)
     File.CreateDirectory(ConfigDir);
     File.Write(
         ConfigFile,
@@ -60,10 +60,10 @@ local function SaveConfig(config)
     )
 end
 
-local function LoadConfig()
+function ItemFinderMod.LoadConfig()
     -- default config if config.json not exists
     if not File.Exists(ConfigFile) then
-        SaveConfig(Default.Config())
+        ItemFinderMod.SaveConfig(Default.Config())
     end
 
     local errors,   config = FixConfig(ReadConfig());
@@ -71,7 +71,7 @@ local function LoadConfig()
 
     -- update file if config changed
     if errors or migrated then
-        SaveConfig(config);
+        ItemFinderMod.SaveConfig(config);
     end
 
     return config;
@@ -79,4 +79,4 @@ end
 
 MoveOldConfig();
 
-return LoadConfig();
+return ItemFinderMod.LoadConfig();
