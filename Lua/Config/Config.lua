@@ -52,7 +52,7 @@ local function FixConfig(config)
     return fixed, config;
 end
 
-function SaveConfig(config)
+local function SaveConfig(config)
     File.CreateDirectory(ConfigDir);
     File.Write(
         ConfigFile,
@@ -60,7 +60,7 @@ function SaveConfig(config)
     )
 end
 
-function LoadConfig()
+local function LoadConfig()
     -- default config if config.json not exists
     if not File.Exists(ConfigFile) then
         SaveConfig(Default.Config())
